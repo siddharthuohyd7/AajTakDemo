@@ -61,4 +61,12 @@ abstract class Styles{
     decoration: TextDecoration.none,
     fontFamily: 'Roboto',
   );
+  static const TextStyle errorText = TextStyle(
+    color: Colors.white,
+    fontSize: 18,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w500,
+    decoration: TextDecoration.none,
+    fontFamily: 'Roboto',
+  );
 }

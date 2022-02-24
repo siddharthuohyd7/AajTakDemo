@@ -2,6 +2,7 @@ import 'package:aajtak/common_ui/button_bar.dart';
 import 'package:aajtak/common_ui/drop_down.dart';
 import 'package:aajtak/common_ui/rounded_button.dart';
 import 'package:aajtak/common_ui/text_input_field.dart';
+import 'package:aajtak/utils/helper.dart';
 import 'package:aajtak/utils/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -143,10 +144,19 @@ class _AddNewProfileState extends State<AddNewProfile> {
                           errorText: 'Enter gender',
                           title: 'Gender',
                           dropDownMenuItemList: const ['MALE', "FEMALE"],
-                          onChanged: (value) {})),
-                  const Flexible(
-                      child: DropDown(
-                          errorText: 'Enter relation', title: 'Relation')),
+                          onChanged: (value) {
+
+                          })),
+                  Flexible(
+                    child: DropDown(
+                      errorText: 'Enter relation',
+                      title: 'Relation',
+                      dropDownMenuItemList: getAllPossibleRelatives(),
+                      onChanged: (value) {
+
+                      },
+                    ),
+                  ),
                 ],
               ),
               Padding(

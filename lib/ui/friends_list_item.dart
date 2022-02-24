@@ -1,9 +1,12 @@
-
+import 'package:aajtak/models/relatives_model.dart';
+import 'package:aajtak/utils/helper.dart';
 import 'package:aajtak/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class FriendsListItem extends StatelessWidget {
-  const FriendsListItem({Key? key}) : super(key: key);
+  final Relative relative;
+
+  const FriendsListItem({Key? key, required this.relative}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +18,28 @@ class FriendsListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
-            const Text(
-              'Mohit Kr',
+            Text(
+              relative.fullName ?? '',
               style: Styles.itemText,
             ),
-            const Text('11-8-1994', style: Styles.itemText),
-            const Text('8:30', style: Styles.itemText),
-            const Text('Brother', style: Styles.itemText),
+            Text(
+              getDate(getNetworkDateTime(relative.dateAndTimeOfBirth ?? '') ??
+                      DateTime.now()) ??
+                  '',
+              style: Styles.itemText,
+            ),
+            Text(
+              getTime(
+                      relative.birthDetails?.tobHour,
+                      relative.birthDetails?.tobMin,
+                      relative.birthDetails?.meridiem) ??
+                  '',
+              style: Styles.itemText,
+            ),
+            Text(
+              relative.relation ?? '',
+              style: Styles.itemText,
+            ),
             Icon(
               Icons.edit,
               color: Colors.orange[700],

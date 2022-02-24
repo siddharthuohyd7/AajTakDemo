@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
         '/AddNewProfile': (BuildContext context) => const AddNewProfile(),
 
       },
-      home: const FriendsFamilyScreen(),
     );
   }
 }
