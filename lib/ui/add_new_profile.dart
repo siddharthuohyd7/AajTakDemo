@@ -255,7 +255,6 @@ class _AddNewProfileState extends State<AddNewProfile> {
                         debugPrint(
                             '********** RESPONSE *************** ${relative?.toJson().toString()}');
                         try {
-
                           if (isNew) {
                             showLoadingIndicator(context,message: 'Adding Profile');
                             await _friendsRepository.addRelative(relative);

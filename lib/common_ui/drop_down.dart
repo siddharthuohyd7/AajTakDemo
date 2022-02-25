@@ -11,10 +11,13 @@ class DropDown extends StatefulWidget {
   final List<String>? dropDownMenuItemList;
   final Function(String?)? onValidate;
   final double rightPadding;
-
+  final double leftPadding;
+  final double topPadding;
   const DropDown({
     Key? key,
     required this.title,
+    this.leftPadding=16,
+    this.topPadding=16,
     this.fieldRequired = false,
     this.hintText = "",
     this.onChanged,
@@ -56,7 +59,7 @@ class _DropDownState extends State<DropDown> {
     selectedValue = widget.dropdownValue.isEmpty ? null : widget.dropdownValue;
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.fromLTRB(16, 16, widget.rightPadding, 0),
+      padding: EdgeInsets.fromLTRB(widget.leftPadding, widget.topPadding, widget.rightPadding, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -72,6 +75,7 @@ class _DropDownState extends State<DropDown> {
                   )
                 ]),
           ),
+          widget.title.toString().isEmpty ?const SizedBox.shrink() :
           const SizedBox(
             height: 10,
           ),

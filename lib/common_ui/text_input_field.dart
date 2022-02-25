@@ -1,6 +1,7 @@
 import 'package:aajtak/utils/helper.dart';
 import 'package:aajtak/utils/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
@@ -26,6 +27,7 @@ class TextInputField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final String description;
   final List<String>? autoFillHints;
+
 
   const TextInputField(
       {Key? key,
@@ -67,11 +69,13 @@ class TextInputField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
           Text(
             title,
             style: Styles.textInputStyle,
           ),
+          title.toString().isEmpty ?const SizedBox.shrink() :
           const SizedBox(
             height: 10,
           ),

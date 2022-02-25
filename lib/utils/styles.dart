@@ -88,4 +88,30 @@ abstract class Styles{
     decoration: TextDecoration.none,
     fontFamily: 'Roboto',
   );
+
+  static const TextStyle categoryHeaderStyle = TextStyle(
+    color: Colors.black87,
+    fontSize: 16,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w800,
+    decoration: TextDecoration.none,
+    fontFamily: 'Roboto',
+  );
+
+  static const TextStyle categoryTextStyle = TextStyle(
+    color: Colors.black87,
+    fontSize: 13,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
+    decoration: TextDecoration.none,
+    fontFamily: 'Roboto',
+  );
+  static const TextStyle categoryListTextStyle = TextStyle(
+    color: Colors.black87,
+    fontSize: 15,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
+    decoration: TextDecoration.none,
+    fontFamily: 'Roboto',
+  );
 }

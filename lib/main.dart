@@ -1,5 +1,6 @@
 import 'package:aajtak/providers/refresh_event_provider.dart';
 import 'package:aajtak/ui/add_new_profile.dart';
+import 'package:aajtak/ui/category_screen.dart';
 import 'package:aajtak/ui/friends_family_screen.dart';
 import 'package:aajtak/ui/places_search.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +46,11 @@ class MyApp extends StatelessWidget {
         initialRoute: '/home',
         routes: {
           '/home': (BuildContext context) => const FriendsFamilyScreen(),
-          '/AddNewProfile': (BuildContext context) => AddNewProfile(
+          AddNewProfile.route: (BuildContext context) => AddNewProfile(
               relative:
                   ModalRoute.of(context)?.settings.arguments as Relative?),
-          '/Places': (BuildContext context) => const PlacesSearchScreen()
+          PlacesSearchScreen.route: (BuildContext context) => const PlacesSearchScreen(),
+          CategoryScreen.route:(BuildContext context) => const CategoryScreen()
         },
       ),
     );

@@ -6,6 +6,7 @@ import 'package:aajtak/models/relatives_model.dart';
 import 'package:aajtak/providers/refresh_event_provider.dart';
 import 'package:aajtak/respository/friends_repository.dart';
 import 'package:aajtak/ui/add_new_profile.dart';
+import 'package:aajtak/ui/category_screen.dart';
 import 'package:aajtak/ui/friends_list_item.dart';
 import 'package:aajtak/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -100,14 +101,29 @@ class _FriendsFamilyScreenState extends State<FriendsFamilyScreen> {
                             })),
                     Padding(
                         padding: const EdgeInsets.all(20),
-                        child: RoundedButton(
-                          buttonWidth: 100,
-                          buttonText: 'Add New Profile',
-                          backgroundColor: Colors.orangeAccent,
-                          onPressed: () async {
-                            Navigator.of(context)
-                                .pushNamed(AddNewProfile.route);
-                          },
+                        child: Row(
+                          children: [Flexible(
+                            child: RoundedButton(
+
+                              buttonText: 'Add New Profile',
+                              backgroundColor: Colors.orangeAccent,
+                              onPressed: () async {
+                                Navigator.of(context)
+                                    .pushNamed(AddNewProfile.route);
+                              },
+                            ),
+                          ),
+                           const SizedBox(width: 15,),
+                            Flexible(
+                            child: RoundedButton(
+                              buttonText: 'Category',
+                              backgroundColor: Colors.orangeAccent,
+                              onPressed: () async {
+                                Navigator.of(context)
+                                    .pushNamed(CategoryScreen.route);
+                              },
+                            ),
+                          ),]
                         ))
                   ],
                 );
