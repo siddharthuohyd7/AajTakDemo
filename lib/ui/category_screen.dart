@@ -19,141 +19,144 @@ class _CategoryScreenState extends State<CategoryScreen> {
   final _categoryRepository = CategoryRepository();
   List<String> suggestions = [];
   final ValueNotifier<List<String>> _notifier = ValueNotifier<List<String>>([]);
+  List<Category>? _categoryList = [];
+
+  List<String> categoryHeaders = [];
+  String dropDownValue = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _categoryRepository.getCategories().then((value) {
+      _categoryList = value;
+      if (_categoryList != null && _categoryList!.isNotEmpty) {
+        categoryHeaders = _categoryList!.map((e) => e.name ?? '').toList();
+      }
+      dropDownValue = categoryHeaders[0];
+      suggestions = _categoryList![0].suggestions ?? [];
+      _notifier.value = suggestions;
+      setState(() {});
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: const Text(
-          'Category',
-          style: Styles.appBarRow,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: const Text(
+            'Category',
+            style: Styles.appBarRow,
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            FutureBuilder<List<Category>>(
-                future: _categoryRepository.getCategories(),
-                builder: (futureCtx, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
-                      return Center(child: Text(snapshot.error.toString()));
-                    }
-                    if (snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No data found.'));
-                    }
-                    List<Category> categories = snapshot.data!;
-                    List<String> categoryHeaders =
-                        categories.map((e) => e.name ?? '').toList();
-                    String dropDownValue = categoryHeaders[0];
-                    suggestions = categories[0].suggestions ?? [];
-                    _notifier.value = suggestions;
-                    return SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        color: Colors.indigo,
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Wallet Balance: 0',
+                              style: Styles.tabText,
+                            ),
+                            RoundedButton(
+                              buttonText: 'Add Money',
+                              fontSize: 12,
+                              buttonHeight: 25,
+                              buttonWidth: 100,
+                              backgroundColor: Colors.white,
+                              onPressed: () {},
+                              textColor: Colors.indigo,
+                              borderWidth: 2,
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(15),
                         child: Column(
-                          mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              color: Colors.indigo,
-                              height: 50,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    'Wallet Balance: 0',
-                                    style: Styles.tabText,
-                                  ),
-                                  RoundedButton(
-                                    buttonText: 'Add Money',
-                                    fontSize: 12,
-                                    buttonHeight: 25,
-                                    buttonWidth: 100,
-                                    backgroundColor: Colors.white,
-                                    onPressed: () {},
-                                    textColor: Colors.indigo,
-                                    borderWidth: 2,
-                                  )
-                                ],
-                              ),
+                            const Text(
+                              'Ask a Question',
+                              style: Styles.categoryHeaderStyle,
                             ),
-                            Container(
-                              margin: const EdgeInsets.all(15),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Text(
-                                    'Ask a Question',
-                                    style: Styles.categoryHeaderStyle,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  const Text(
-                                    'Seek accurate answers to your life problems and get guidance towards the right path.'
-                                    ' Whether the problem is related to love,self,life,business,money,education or work,our '
-                                    'astrologers will do an in depth study of your birth chart to provide personalized responses along with remedies.',
-                                    style: Styles.categoryTextStyle,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  const Text(
-                                    'Choose Category',
-                                    style: Styles.categoryHeaderStyle,
-                                  ),
-                                  DropDown(
-                                      leftPadding: 0,
-                                      rightPadding: 0,
-                                      topPadding: 0,
-                                      dropdownValue: dropDownValue,
-                                      errorText: 'Enter gender',
-                                      title: '',
-                                      dropDownMenuItemList: categoryHeaders,
-                                      onChanged: (value) {
-                                        suggestions = categories.firstWhere(
-                                                (element) =>
-                                                    element.name == value,
-                                                orElse: () {
-                                              return Category();
-                                            }).suggestions ??
-                                            [];
-                                        _notifier.value = suggestions;
-                                      }),
-                                  TextInputField(
-                                    maxLines: 5,
-                                    key: UniqueKey(),
-                                    hintText: 'Type a question here',
-                                    title: '',
-                                    rightPadding: 0,
-                                    leftPadding: 0,
-                                    maxLength: 150,
-                                    onSaved: (value) {},
-                                  ),
-                                  const Text(
-                                    'Ideas What to Ask (Select Any)',
-                                    style: Styles.categoryHeaderStyle,
-                                  ),
-                                  ValueListenableBuilder<List<String>>(
-                                    valueListenable: _notifier,
-                                    builder: (BuildContext context,
-                                        List<String> list, Widget? child) {
-                                      return Column(
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              'Seek accurate answers to your life problems and get guidance towards the right path.'
+                              ' Whether the problem is related to love,self,life,business,money,education or work,our '
+                              'astrologers will do an in depth study of your birth chart to provide personalized responses along with remedies.',
+                              style: Styles.categoryTextStyle,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              'Choose Category',
+                              style: Styles.categoryHeaderStyle,
+                            ),
+                            DropDown(
+                                leftPadding: 0,
+                                rightPadding: 0,
+                                topPadding: 0,
+                                dropdownValue: dropDownValue,
+                                errorText: 'Enter gender',
+                                title: '',
+                                dropDownMenuItemList: categoryHeaders,
+                                onChanged: (value) {
+                                  suggestions = _categoryList?.firstWhere(
+                                          (element) => element.name == value,
+                                          orElse: () {
+                                        return Category();
+                                      }).suggestions ??
+                                      [];
+                                  _notifier.value = suggestions;
+                                }),
+                            TextInputField(
+                              maxLines: 5,
+                              hintText: 'Type a question here',
+                              title: '',
+                              rightPadding: 0,
+                              leftPadding: 0,
+                              maxLength: 150,
+                              onSaved: (value) {},
+                            ),
+                            const Text(
+                              'Ideas What to Ask (Select Any)',
+                              style: Styles.categoryHeaderStyle,
+                            ),
+                            ValueListenableBuilder<List<String>>(
+                              valueListenable: _notifier,
+                              builder: (BuildContext context, List<String> list,
+                                  Widget? child) {
+                                return list.isNotEmpty
+                                    ? Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          ...suggestions.map((value) {
+                                          ...list.map((value) {
                                             return ListTile(
                                               contentPadding:
                                                   const EdgeInsets.symmetric(
@@ -161,62 +164,57 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                               dense: true,
                                               title: Text(
                                                 value,
-                                                style: Styles
-                                                    .categoryListTextStyle,
+                                                style:
+                                                    Styles.categoryListTextStyle,
                                               ),
                                             );
                                           })
                                         ],
+                                      )
+                                    : Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.4,
                                       );
-                                    },
-                                  )
-                                ],
-                              ),
+                              },
                             )
                           ],
                         ),
-                      ),
-                    );
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                }),
-            Positioned(
-              child: Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 15),
-                color: Colors.indigo,
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '\$150(1 Question on Love)',
-                      style: Styles.tabText,
-                    ),
-                    RoundedButton(
-                      buttonText: 'Ask now',
-                      fontSize: 12,
-                      buttonHeight: 30,
-                      buttonWidth: 75,
-                      backgroundColor: Colors.white,
-                      onPressed: () {},
-                      textColor: Colors.indigo,
-                      borderWidth: 1,
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-              bottom: 0,
-            ),
-          ],
+              Positioned(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  color: Colors.indigo,
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        '\$150(1 Question on Love)',
+                        style: Styles.tabText,
+                      ),
+                      RoundedButton(
+                        buttonText: 'Ask now',
+                        fontSize: 12,
+                        buttonHeight: 30,
+                        buttonWidth: 75,
+                        backgroundColor: Colors.white,
+                        onPressed: () {},
+                        textColor: Colors.indigo,
+                        borderWidth: 1,
+                      )
+                    ],
+                  ),
+                ),
+                bottom: 0,
+              ),
+            ],
+          ),
         ),
       ),
     );

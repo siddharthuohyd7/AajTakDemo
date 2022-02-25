@@ -15,52 +15,71 @@ class FriendsListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      child: SizedBox(
-        height: 60,
+      child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+        
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              relative.fullName ?? '',
-              style: Styles.itemText,
-            ),
-            Text(
-              getDate(getNetworkDateTime(relative.dateAndTimeOfBirth ?? '') ??
-                      DateTime.now()) ??
-                  '',
-              style: Styles.itemText,
-            ),
-            Text(
-              getTime(
-                      relative.birthDetails?.tobHour,
-                      relative.birthDetails?.tobMin,
-                      relative.birthDetails?.meridiem) ??
-                  '',
-              style: Styles.itemText,
-            ),
-            Text(
-              relative.relation ?? '',
-              style: Styles.itemText,
-            ),
-            IconButton(
-              onPressed: (){
-                Navigator.of(context)
-                    .pushNamed(AddNewProfile.route,arguments: relative);
-              },
-             icon: Icon(
-                Icons.edit,
-                color: Colors.orange[700],
+            Flexible(
+
+              child: Text(
+                relative.fullName ?? '',
+                style: Styles.itemText,
               ),
             ),
-            IconButton(
-              onPressed: (){
-                deleteCallback!(relative);
-              },
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-              )
+            Flexible(
+              child: FittedBox(
+                child: Text(
+                  getDate(getNetworkDateTime(relative.dateAndTimeOfBirth ?? '') ??
+                          DateTime.now()) ??
+                      '',
+                  style: Styles.itemText,
+                ),
+              ),
+            ),
+            Flexible(
+              child: FittedBox(
+                child: Text(
+                  getTime(
+                          relative.birthDetails?.tobHour,
+                          relative.birthDetails?.tobMin,
+                          relative.birthDetails?.meridiem) ??
+                      '',
+                  style: Styles.itemText,
+                ),
+              ),
+            ),
+
+            Flexible(
+              child: Text(
+                relative.relation ?? '',
+                style: Styles.itemText,
+              ),
+            ),
+            Flexible(
+              child: IconButton(
+                onPressed: (){
+                  Navigator.of(context)
+                      .pushNamed(AddNewProfile.route,arguments: relative);
+                },
+               icon: Icon(
+                  Icons.edit,
+                  color: Colors.orange[700],
+                ),
+              ),
+            ),
+            Flexible(
+              child: IconButton(
+                onPressed: (){
+                  deleteCallback!(relative);
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                )
+              ),
             ),
 
           ],

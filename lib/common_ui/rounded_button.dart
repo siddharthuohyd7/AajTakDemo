@@ -31,7 +31,7 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
 
-      child: Text(buttonText),
+      child: FittedBox(child: Text(buttonText)),
       style: ElevatedButton.styleFrom(
         textStyle: Styles.buttonStyle.copyWith(fontSize: fontSize),
         onPrimary: textColor,
