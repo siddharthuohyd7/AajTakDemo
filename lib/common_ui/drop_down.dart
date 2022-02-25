@@ -36,6 +36,9 @@ class _DropDownState extends State<DropDown> {
   @override
   void initState() {
     super.initState();
+    if(widget.dropdownValue.isNotEmpty&&  !widget.dropDownMenuItemList!.contains(widget.dropdownValue)){
+      widget.dropDownMenuItemList!.add(widget.dropdownValue);
+    }
   }
 
   @override

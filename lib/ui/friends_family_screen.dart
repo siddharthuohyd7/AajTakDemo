@@ -1,11 +1,16 @@
+import 'dart:async';
+
+import 'package:aajtak/common_ui/loading_indicator_dialog.dart';
 import 'package:aajtak/common_ui/rounded_button.dart';
 import 'package:aajtak/models/relatives_model.dart';
+import 'package:aajtak/providers/refresh_event_provider.dart';
 import 'package:aajtak/respository/friends_repository.dart';
 import 'package:aajtak/ui/add_new_profile.dart';
 import 'package:aajtak/ui/friends_list_item.dart';
 import 'package:aajtak/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FriendsFamilyScreen extends StatefulWidget {
   const FriendsFamilyScreen({Key? key}) : super(key: key);
@@ -15,6 +20,32 @@ class FriendsFamilyScreen extends StatefulWidget {
 }
 
 class _FriendsFamilyScreenState extends State<FriendsFamilyScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<RefreshProviderEvent>(context, listen: true);
+  }
+
+  void _deleteCallback(Relative relative) async {
+    debugPrint('RELATIVE ${relative.uuid}');
+    DeleteTemplateAction deleteTemplateAction = await showCustomDialog(context,
+        message: 'Do you really want to Delete?');
+    if (deleteTemplateAction == DeleteTemplateAction.YES) {
+      showLoadingIndicator(context, message: 'Deleting Profile');
+      try{
+        await FriendsRepository().deleteRelative(relative);
+        hideDialog();
+        setState(() {
+        });
+      }catch(e){
+        hideDialog();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+
+      }
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +95,7 @@ class _FriendsFamilyScreenState extends State<FriendsFamilyScreen> {
                                   snapshot.data?[index] ?? Relative();
                               return FriendsListItem(
                                 relative: relative,
+                                deleteCallback: _deleteCallback,
                               );
                             })),
                     Padding(
@@ -72,7 +104,7 @@ class _FriendsFamilyScreenState extends State<FriendsFamilyScreen> {
                           buttonWidth: 100,
                           buttonText: 'Add New Profile',
                           backgroundColor: Colors.orangeAccent,
-                          onPressed: () {
+                          onPressed: () async {
                             Navigator.of(context)
                                 .pushNamed(AddNewProfile.route);
                           },

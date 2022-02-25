@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 class ButtonTabBar extends StatelessWidget {
   final List<String> tabTitles;
+  final Function(String title) ? callback;
 
-  const ButtonTabBar({Key? key, required this.tabTitles}) : super(key: key);
+   ButtonTabBar({Key? key, required this.tabTitles,required this.callback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,12 @@ class ButtonTabBar extends StatelessWidget {
         color: Colors.white,
         elevation: 3,
         child: TabBar(
+
+          onTap: (value){
+            if(callback!=null) {
+              callback!(tabTitles[value]);
+            }
+          },
           indicatorSize: TabBarIndicatorSize.tab,
           labelColor: Colors.white,
           labelStyle: Styles.tabText,

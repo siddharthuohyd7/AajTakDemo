@@ -3,10 +3,13 @@ import 'package:aajtak/utils/helper.dart';
 import 'package:aajtak/utils/styles.dart';
 import 'package:flutter/material.dart';
 
+import 'add_new_profile.dart';
+
 class FriendsListItem extends StatelessWidget {
   final Relative relative;
+  final void Function(Relative relative) ? deleteCallback;
 
-  const FriendsListItem({Key? key, required this.relative}) : super(key: key);
+  const FriendsListItem({Key? key, required this  .relative,this.deleteCallback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +43,26 @@ class FriendsListItem extends StatelessWidget {
               relative.relation ?? '',
               style: Styles.itemText,
             ),
-            Icon(
-              Icons.edit,
-              color: Colors.orange[700],
+            IconButton(
+              onPressed: (){
+                Navigator.of(context)
+                    .pushNamed(AddNewProfile.route,arguments: relative);
+              },
+             icon: Icon(
+                Icons.edit,
+                color: Colors.orange[700],
+              ),
             ),
-            const Icon(
-              Icons.delete,
-              color: Colors.red,
-            )
+            IconButton(
+              onPressed: (){
+                deleteCallback!(relative);
+              },
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.red,
+              )
+            ),
+
           ],
         ),
       ),

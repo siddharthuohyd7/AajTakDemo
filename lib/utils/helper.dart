@@ -20,7 +20,12 @@ List<String> getAllPossibleRelatives() {
     "GrandFather",
     "GrandMother",
     "Aunt",
-    "Uncle"
+    "Uncle",
+    "Father in law",
+    "Mother in law",
+    "Son",
+    "Daughter",
+    "Spouse"
   ];
 }
 

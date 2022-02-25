@@ -62,10 +62,29 @@ abstract class Styles{
     fontFamily: 'Roboto',
   );
   static const TextStyle errorText = TextStyle(
-    color: Colors.white,
+    color: Colors.black54,
     fontSize: 18,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w500,
+    decoration: TextDecoration.none,
+    fontFamily: 'Roboto',
+  );
+
+  static const TextStyle searchText = TextStyle(
+    color: Colors.black54,
+    fontSize: 16,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
+    decoration: TextDecoration.none,
+    fontFamily: 'Roboto',
+  );
+
+
+  static const TextStyle dialogButtonStyle = TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
     decoration: TextDecoration.none,
     fontFamily: 'Roboto',
   );
